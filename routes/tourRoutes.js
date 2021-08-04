@@ -1,8 +1,16 @@
 const express = require('express');
+
 const router = express.Router();
-const tourController = require('./../controllers/tourController');
-const { getAllTours, createTour, getTour, updateTour, deleteTour, middleware } =
-  tourController;
+const tourController = require('../controllers/toursController');
+
+const {
+  getAllTours,
+  createTour,
+  getTour,
+  updateTour,
+  deleteTour,
+  middleware
+} = tourController;
 // ROUTES
 
 // app.get('/api/v1/tours', getAllTours);
@@ -15,7 +23,14 @@ router.param('id', (req, res, next, val) => {
   console.log(`The id of the tour is ${val}`);
   next();
 });
-router.route('/').get(getAllTours).post(middleware, createTour);
-router.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
+router
+  .route('/')
+  .get(getAllTours)
+  .post(createTour);
+router
+  .route('/:id')
+  .get(getTour)
+  .patch(updateTour)
+  .delete(deleteTour);
 
 module.exports = router;

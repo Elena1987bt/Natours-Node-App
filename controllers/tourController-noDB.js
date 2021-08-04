@@ -18,21 +18,21 @@ exports.middleware = (req, res, next) => {
   }
 };
 // GET ALL TOURS
-const tours = JSON.parse(dataJson);
+// const tours = JSON.parse(dataJson);
 exports.getAllTours = (req, res) => {
   console.log(req.requestTime);
   res.status(200).json({
     status: 'success',
     results: tours.length,
     data: {
-      tours: tours,
-    },
+      tours: tours
+    }
   });
 };
 //GET A TOUR
 exports.getTour = (req, res) => {
   const id = req.params.id * 1;
-  const tour = tours.find((tour) => tour.id === id);
+  const tour = tours.find(el => el.id === id);
   // if (id > tours.length) {
   if (!tour) {
     return res.status(404).json({ status: 'fail', message: 'Invalid ID' });
@@ -40,8 +40,8 @@ exports.getTour = (req, res) => {
   res.status(200).json({
     status: 'success',
     data: {
-      tour: tour,
-    },
+      tour: tour
+    }
   });
 };
 //POST A TOUR
@@ -52,7 +52,8 @@ exports.createTour = (req, res) => {
   fs.writeFile(
     `${__dirname}/dev-data/data/tours-simple.json`,
     JSON.stringify(tours),
-    (err) => {
+    err => {
+      if (err) return console.log(err);
       res.status(201).json({ status: 'success', data: { tour: newTour } });
     }
   );
@@ -66,8 +67,8 @@ exports.updateTour = (req, res) => {
   res.status(200).json({
     status: 'success',
     data: {
-      tour: '<Updated Tour...>',
-    },
+      tour: '<Updated Tour...>'
+    }
   });
 };
 // DELETE A TOUR
@@ -79,7 +80,7 @@ exports.deleteTour = (req, res) => {
   res.status(204).json({
     status: 'null',
     data: {
-      tour: '<Deleted Tour...>',
-    },
+      tour: '<Deleted Tour...>'
+    }
   });
 };
