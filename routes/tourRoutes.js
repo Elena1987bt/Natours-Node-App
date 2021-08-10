@@ -9,6 +9,9 @@ const {
   getTour,
   updateTour,
   deleteTour,
+  aliasTopTours,
+  getTourStats,
+  getMonthlyPlan,
   middleware
 } = tourController;
 // ROUTES
@@ -23,6 +26,10 @@ router.param('id', (req, res, next, val) => {
   console.log(`The id of the tour is ${val}`);
   next();
 });
+
+router.route('/top-5-tours').get(aliasTopTours, getAllTours);
+router.route('/tours-stats').get(getTourStats);
+router.route('/monthly-plan/:year').get(getMonthlyPlan);
 router
   .route('/')
   .get(getAllTours)
