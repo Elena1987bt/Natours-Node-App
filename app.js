@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -9,10 +10,19 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
+const reviewRouter = require('./routes/reviewRoutes');
 
 const app = express();
 
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
 // 1. GLOBAL MIDDLEWARES
+
+// Serving static files
+// app.use(express.static(`${__dirname}/public`));
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Set security HTTP headers
 app.use(helmet());
 
@@ -30,7 +40,7 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // Body parser, reading data from the body into req.body
-app.use(express.json({ limit: '10k' }));
+app.use(express.json({ limit: '50mb' }));
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
@@ -52,9 +62,6 @@ app.use(
   })
 );
 
-// Serving static files
-app.use(express.static(`${__dirname}/public`));
-
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
@@ -69,8 +76,21 @@ app.use((req, res, next) => {
 // });
 
 // ROUTES
+
+app.get('/', (req, res) => {
+  res.status(200).render('base', { tour: 'The Forest Hiker' });
+});
+
+app.get('/overview', (req, res) => {
+  res.status(200).render('overview');
+});
+app.get('/tour', (req, res) => {
+  res.status(200).render('tour', { title: 'The Forest Hiker' });
+});
+
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/reviews', reviewRouter);
 app.all('*', (req, res, next) => {
   // Solution number 1
   // res.status(404).json({
