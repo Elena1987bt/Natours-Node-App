@@ -16,7 +16,9 @@ const {
   getTourStats,
   getMonthlyPlan,
   getToursWithin,
-  getDistances
+  getDistances,
+  uploadTourImages,
+  resizeTourImages
   // middleware
 } = tourController;
 // ROUTES
@@ -75,6 +77,8 @@ router
   .patch(
     authController.protect,
     authController.restrictTo('admin', 'lead-guide'),
+    uploadTourImages,
+    resizeTourImages,
     updateTour
   )
   .delete(
