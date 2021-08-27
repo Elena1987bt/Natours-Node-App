@@ -30,7 +30,7 @@ const {
 // app.post('/api/v1/tours', createTour);
 
 router.param('id', (req, res, next, val) => {
-  console.log(`The id of the tour is ${val}`);
+  // (`The id of the tour is ${val}`);
   next();
 });
 // NESTED ROUTES

@@ -62,7 +62,7 @@ exports.aliasTopTours = (req, res, next) => {
 
 // GET ALL TOURS
 exports.getAllTours = catchAsync(async (req, res, next) => {
-  console.log(req.requestTime);
+  // console.log(req.requestTime);
   // BUILD A QUERY
 
   // 1A. Basic filtering

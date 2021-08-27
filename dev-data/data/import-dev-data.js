@@ -11,7 +11,7 @@ const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD
 );
-console.log(DB);
+// console.log(DB);
 mongoose
   .connect(DB, {
     // .connect(process.env.DATABASE_LOCAL, { --->This is for connection to the local database
@@ -21,12 +21,10 @@ mongoose
     useFindAndModify: false
   })
   .then(con => {
-    // console.log(con.connections);
+    console.log(con.connections);
     console.log('Connected to the database...');
   })
-  .catch(err => {
-    console.log(err);
-  });
+  .catch(err => console.log(err));
 
 // READ file
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, 'utf-8'));
@@ -42,7 +40,7 @@ const importData = async () => {
     await Tour.create(tours);
     await User.create(users, { validateBeforeSave: false });
     await Review.create(reviews);
-    console.log('Data successfully loaded');
+    // console.log('Data successfully loaded');
   } catch (err) {
     console.log(err);
   }
@@ -55,7 +53,7 @@ const deleteData = async () => {
     await Tour.deleteMany();
     await User.deleteMany();
     await Review.deleteMany();
-    console.log('Data successfully deleted');
+    // console.log('Data successfully deleted');
   } catch (err) {
     console.log(err);
   }
@@ -67,4 +65,4 @@ if (process.argv[2] === '--import') {
 } else if (process.argv[2] === '--delete') {
   deleteData();
 }
-console.log(process.argv);
+// console.log(process.argv);
