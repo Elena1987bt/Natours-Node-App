@@ -8,7 +8,7 @@ const {
   getMyTours
 } = require('../controllers/viewsController');
 const { isLoggedIn, protect } = require('../controllers/authController');
-const bookingController = require('../controllers/bookingController');
+// const bookingController = require('../controllers/bookingController');
 
 const router = express.Router();
 router.get('/', isLoggedIn, getOverview);
