@@ -17,7 +17,7 @@ router.get('/login', isLoggedIn, getLoginForm);
 router.get('/me', protect, getAccount);
 router.get(
   '/my-tours',
-  bookingController.createBookingCheckout,
+  // bookingController.createBookingCheckout,
   protect,
   getMyTours
 );

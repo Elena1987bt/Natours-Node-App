@@ -13,10 +13,12 @@ const cors = require('cors');
 const AppError = require('./utils/appError');
 const contentSecurityPolicy = require('./utils/contentSecurityObj');
 const globalErrorHandler = require('./controllers/errorController');
+
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingController');
 const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
@@ -59,6 +61,11 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
+app.post(
+  '/webhook_checkout',
+  express.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout
+);
 // Body parser, reading data from the body into req.body
 app.use(express.json({ limit: '50mb' }));
 app.use(cookieParser());
@@ -101,7 +108,6 @@ app.use((req, res, next) => {
 // ROUTES
 
 app.use('/', viewRouter);
-
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
